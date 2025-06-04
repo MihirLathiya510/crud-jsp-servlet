@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.example.dao.UserDAO;
+import com.example.dao.DAOFactory;
 import com.example.model.User;
 
 @WebServlet("/")
@@ -20,7 +21,7 @@ public class UserServlet extends HttpServlet {
     private UserDAO userDAO;
     
     public void init() {
-        userDAO = new UserDAO();
+        userDAO = DAOFactory.getUserDAO();
     }
     
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

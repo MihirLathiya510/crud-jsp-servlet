@@ -4,6 +4,17 @@
          version="4.0">
   <display-name>User Management Web Application</display-name>
 
+  <!-- Configure Hibernate Listener -->
+  <listener>
+    <listener-class>com.example.util.HibernateListener</listener-class>
+  </listener>
+  
+  <!-- Set System property to choose DAO implementation -->
+  <context-param>
+    <param-name>dao.implementation</param-name>
+    <param-value>hibernate</param-value> <!-- Options: jdbc, hibernate -->
+  </context-param>
+
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
