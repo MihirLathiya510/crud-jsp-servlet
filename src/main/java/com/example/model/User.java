@@ -1,9 +1,21 @@
 package com.example.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "users")
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @Column(name = "name", nullable = false, length = 120)
     private String name;
+    
+    @Column(name = "email", nullable = false, length = 220)
     private String email;
+    
+    @Column(name = "country", length = 120)
     private String country;
     
     public User() {

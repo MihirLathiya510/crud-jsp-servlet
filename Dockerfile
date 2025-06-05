@@ -7,7 +7,7 @@ RUN rm -rf /usr/local/tomcat/webapps/*
 COPY target/crud-jsp-servlet.war /usr/local/tomcat/webapps/ROOT.war
 
 # Ensure the WAR is extracted at startup
-ENV CATALINA_OPTS="-Dorg.apache.catalina.STRICT_SERVLET_COMPLIANCE=false"
+ENV CATALINA_OPTS="-Dorg.apache.catalina.STRICT_SERVLET_COMPLIANCE=false -Ddao.implementation=hibernate"
 
 # For debugging
 RUN mkdir -p /usr/local/tomcat/logs
