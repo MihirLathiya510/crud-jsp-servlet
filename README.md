@@ -197,17 +197,3 @@ The application incorporates several design patterns and architectural principle
 ### 5. Observer Pattern
 - `HibernateListener` observes the web application lifecycle events
 - Initializes and cleans up Hibernate resources based on application events
-
-## Known Limitations and Future Improvements
-
-- Add user authentication and authorization
-- Implement more extensive input validation
-- Add unit and integration tests for both DAO implementations
-- Add transaction handling for complex operations
-- Improve error handling and user feedback
-- Implement pagination for large datasets
-- Add sorting and filtering functionality
-
-## Conclusion
-
-This project demonstrates a well-structured web application with interchangeable data access strategies using the DAO pattern and Factory design pattern. By providing both JDBC and Hibernate implementations, it showcases the flexibility of properly designed applications and allows for comparing the two approaches in a real-world application.
