@@ -3,6 +3,7 @@ package com.example.dao;
 import com.example.model.User;
 import com.example.util.HibernateUtil;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import java.sql.SQLException;
@@ -10,10 +11,17 @@ import java.util.List;
 
 public class UserDAOHibernate implements UserDAO {
 
+    /**
+     * Get the session factory - can be overridden in tests
+     */
+    protected SessionFactory getSessionFactory() {
+        return HibernateUtil.getSessionFactory();
+    }
+    
     @Override
     public void insertUser(User user) throws SQLException {
         Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             session.save(user);
             transaction.commit();
@@ -27,7 +35,7 @@ public class UserDAOHibernate implements UserDAO {
 
     @Override
     public User selectUser(long id) throws SQLException {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = getSessionFactory().openSession()) {
             return session.get(User.class, id);
         } catch (Exception e) {
             throw new SQLException("Error selecting user with id: " + id, e);
@@ -36,7 +44,7 @@ public class UserDAOHibernate implements UserDAO {
 
     @Override
     public List<User> selectAllUsers() throws SQLException {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = getSessionFactory().openSession()) {
             return session.createQuery("from User", User.class).list();
         } catch (Exception e) {
             throw new SQLException("Error selecting all users", e);
@@ -46,7 +54,7 @@ public class UserDAOHibernate implements UserDAO {
     @Override
     public boolean updateUser(User user) throws SQLException {
         Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             session.update(user);
             transaction.commit();
@@ -62,7 +70,7 @@ public class UserDAOHibernate implements UserDAO {
     @Override
     public boolean deleteUser(long id) throws SQLException {
         Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             User user = session.get(User.class, id);
             if (user != null) {

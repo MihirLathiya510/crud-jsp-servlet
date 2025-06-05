@@ -18,10 +18,17 @@ public class UserDAOJdbc implements UserDAO {
     private static final String DELETE_USER_SQL = "DELETE FROM users WHERE id = ?";
     private static final String UPDATE_USER_SQL = "UPDATE users SET name = ?, email = ?, country = ? WHERE id = ?";
     
+    /**
+     * Get a database connection - can be overridden in tests
+     */
+    protected Connection getConnection() throws SQLException {
+        return DatabaseConnectionUtil.getConnection();
+    }
+    
     // Create user
     @Override
     public void insertUser(User user) throws SQLException {
-        try (Connection connection = DatabaseConnectionUtil.getConnection();
+        try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USER_SQL)) {
             preparedStatement.setString(1, user.getName());
             preparedStatement.setString(2, user.getEmail());
@@ -34,7 +41,7 @@ public class UserDAOJdbc implements UserDAO {
     @Override
     public User selectUser(long id) throws SQLException {
         User user = null;
-        try (Connection connection = DatabaseConnectionUtil.getConnection();
+        try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_ID)) {
             preparedStatement.setLong(1, id);
             ResultSet rs = preparedStatement.executeQuery();
@@ -53,7 +60,7 @@ public class UserDAOJdbc implements UserDAO {
     @Override
     public List<User> selectAllUsers() throws SQLException {
         List<User> users = new ArrayList<>();
-        try (Connection connection = DatabaseConnectionUtil.getConnection();
+        try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_USERS)) {
             ResultSet rs = preparedStatement.executeQuery();
             
@@ -72,7 +79,7 @@ public class UserDAOJdbc implements UserDAO {
     @Override
     public boolean updateUser(User user) throws SQLException {
         boolean rowUpdated;
-        try (Connection connection = DatabaseConnectionUtil.getConnection();
+        try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_USER_SQL)) {
             statement.setString(1, user.getName());
             statement.setString(2, user.getEmail());
@@ -88,7 +95,7 @@ public class UserDAOJdbc implements UserDAO {
     @Override
     public boolean deleteUser(long id) throws SQLException {
         boolean rowDeleted;
-        try (Connection connection = DatabaseConnectionUtil.getConnection();
+        try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(DELETE_USER_SQL)) {
             statement.setLong(1, id);
             rowDeleted = statement.executeUpdate() > 0;
